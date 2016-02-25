@@ -25,7 +25,7 @@ LIBS_FOR_GUI_APPLICATION =
 EXE =
 ##### End of variables to change
 
-UNICAST_STREAMER_APPS = nvn$(EXE)
+UNICAST_STREAMER_APPS = nlive$(EXE)
 UNICAST_APPS = $(UNICAST_STREAMER_APPS) 
 PREFIX = /usr/local
 ALL = $(UNICAST_APPS) 
@@ -39,7 +39,7 @@ all: $(ALL)
 
 
 
-NVN_OBJS = nvn.$(OBJ) \
+NLIVE_OBJS = nlive.$(OBJ) \
 	   nDeviceSource.$(OBJ)  \
 	   nMediaSubsession.$(OBJ)
 
@@ -59,8 +59,8 @@ LOCAL_LIBS =	$(LIVEMEDIA_LIB) $(GROUPSOCK_LIB) \
 		$(BASIC_USAGE_ENVIRONMENT_LIB) $(USAGE_ENVIRONMENT_LIB)
 LIBS =			$(LOCAL_LIBS) $(LIBS_FOR_CONSOLE_APPLICATION)
 
-nvn$(EXE):	$(NVN_OBJS) $(LOCAL_LIBS)
-	$(LINK)$@ $(CONSOLE_LINK_OPTS) $(NVN_OBJS) $(LIBS)
+nlive$(EXE):	$(NLIVE_OBJS) $(LOCAL_LIBS)
+	$(LINK)$@ $(CONSOLE_LINK_OPTS) $(NLIVE_OBJS) $(LIBS)
 
 clean:
 	-rm -rf *.$(OBJ) $(ALL) core *.core *~ include/*~

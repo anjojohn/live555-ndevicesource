@@ -10,8 +10,8 @@
 #include <unistd.h>
 
 //static uint8_t *buf = (uint8_t*)malloc(102400);
-static uint8_t buf[1024];
-int upp_stream;
+static uint8_t buf[640*480/2];
+int fdstream;
 
 nDeviceSource*
 nDeviceSource::createNew(UsageEnvironment& env)
@@ -26,7 +26,7 @@ nDeviceSource::nDeviceSource(UsageEnvironment& env):FramedSource(env)
 { 
 
   if (referenceCount == 0) 
-      upp_stream = open("h264",O_RDWR);
+      fdstream = open("h264",O_RDWR); //remove
 
   ++referenceCount;
 
@@ -49,16 +49,10 @@ int loop_count;
 
 void nDeviceSource::doGetNextFrame() 
 {
-
-    //for (loop_count=0; loop_count < 13; loop_count++)
-    //{
-  
-      read(upp_stream,buf, 1024);
-//	lseek(upp_stream,0,SEEK_SET);
-        //bufPtr+=8192;
-
-    //}
-    deliverFrame();
+	int ret;
+	ret = read(fdstream,buf, sizeof(buf));
+	//NVNTODO: copy encoded frame to buf here :)
+	deliverFrame();
 
 }
 
@@ -73,6 +67,7 @@ void nDeviceSource::deliverFrame()
   u_int8_t* newFrameDataStart = (u_int8_t*) buf;             //(u_int8_t*) buf; //%%% TO BE WRITTEN %%%
   unsigned newFrameSize = sizeof(buf); //%%% TO BE WRITTEN %%%
   // Deliver the data here:
+  // NVNTODO: Make a variable to pass size also here instead of sizeof()
   if (newFrameSize > fMaxSize) {
     fFrameSize = fMaxSize;
     fNumTruncatedBytes = newFrameSize - fMaxSize;
